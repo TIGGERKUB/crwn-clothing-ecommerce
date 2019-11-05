@@ -13,7 +13,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
   //check whether which account is logging in and create an account in firebase if doesn't exist
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const {setCurrentUser} = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -28,7 +28,6 @@ class App extends React.Component {
       }
     });
   }
-
   componentWillUnmount() {
     this.unsubscribeFromAuth();
   }
@@ -40,25 +39,16 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
-          <Route
-            path="/signin"
-            render={() =>
-              this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
-          />
+          <Route path="/signin" render={ ()=>this.props.currentUser?(<Redirect to="/"/>):(<SignInAndSignUpPage/>)}/>
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({user}) => ({
   currentUser: user.currentUser
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
